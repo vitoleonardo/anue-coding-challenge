@@ -1,20 +1,29 @@
-'use client';
-
 import React from 'react';
-import { ToastContainer } from 'react-toastify'; // Import only ToastContainer
 import { handleRemoveLSItem, handleSetLSItem } from '../../../utils/ls';
 import Button from '../button/Button';
+import { Todo } from '@/context/TodoContext';
 
-const MyButton: React.FC = () => {
+interface MyButtonProps {
+  data: Todo;
+}
+const newTodo: Todo = {
+  itemName: 'Go for a run',
+  status: 'pending',
+  createdAt: new Date().toISOString(),
+  id: crypto.randomUUID(),
+};
+
+const MyButton: React.FC<MyButtonProps> = ({ data }) => {
   const handleSetItem = (action: string) => {
-    const valueToStore = 'your value here';
+    const valueToStore = JSON.stringify(data);
 
     if (action === 'set') {
-      handleSetLSItem('myKey', valueToStore);
+      handleSetLSItem('toDos', data);
     } else if (action === 'delete') {
-      handleRemoveLSItem('myKey');
+      handleRemoveLSItem('toDos', data.id);
     }
   };
+
   return (
     <div>
       <Button
