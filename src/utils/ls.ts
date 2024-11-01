@@ -5,13 +5,25 @@ interface Alert {
   note: string;
 }
 
-export const handleSetLSItem = (itemName: string, content: string) => {
-  localStorage.setItem(itemName, content);
+export const handleSetLSItem = (key: string, value: string) => {
+  localStorage.setItem(key, value);
   notify({ state: 'success', note: 'Successfully set item' });
 };
 
-export const handleRemoveLSItem = (itemName: string) => {
-  localStorage.removeItem(itemName);
+export const handleGetLSItem = (key: string): string | null => {
+  try {
+    const item = localStorage.getItem(key);
+    notify({ state: 'success', note: 'Successfully retrieved item' });
+    return item;
+  } catch (error) {
+    console.error('Error getting item from localStorage:', error);
+    notify({ state: 'error', note: 'There was an error retrieving item' });
+    return null;
+  }
+};
+
+export const handleRemoveLSItem = (key: string) => {
+  localStorage.removeItem(key);
   notify({ state: 'success', note: 'Successfully deleted item' });
 };
 
